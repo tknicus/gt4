@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The GOLDEN Trader Risk Calculator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-blue: #38bdf8;
+            --neon-red: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            background-image: radial-gradient(circle at top right, #111827, #000000);
+            color: #ffffff;
+            /* CRITICAL FIX: Allow scrolling when keyboard is open */
+            min-height: 100dvh; 
+            overflow-y: auto; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+            /* Add extra padding at bottom so user can scroll past the keyboard */
+            padding-bottom: 5rem; 
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Neon Text Effects */
+        .neon-blue {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+        }
+        
+        .neon-red {
+            color: var(--neon-red);
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+        }
+
+        /* Styling for the inputs */
+        .neon-input {
+            color: #e2e8f0;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .neon-input:focus {
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3), inset 0 0 4px rgba(56, 189, 248, 0.2);
+            border-color: var(--neon-blue);
+            outline: none;
+        }
+        
+        /* Remove arrows from number inputs for a cleaner look */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="glass-card rounded-2xl p-5 sm:p-8 w-full max-w-md mx-auto flex flex-col gap-6">
+        
+        <!-- Header Section -->
+        <div class="text-center">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-sky-500 font-bold mb-2">Pro Trading Environment</h2>
+            <h1 class="text-2xl sm:text-3xl font-extrabold gradient-text tracking-tight leading-tight">The GOLDEN Trader<br>Risk Calculator</h1>
+        </div>
+
+        <!-- Inputs Section -->
+        <div class="flex flex-col gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1">Capital ($ / Cents)</label>
+                <input type="number" id="capital" value="1000" class="w-full rounded-xl py-3 px-4 text-xl sm:text-2xl neon-input" placeholder="0">
+            </div>
+            
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1">Lot Size</label>
+                <input type="number" id="lotSize" value="0.01" step="0.01" class="w-full rounded-xl py-3 px-4 text-xl sm:text-2xl neon-input" placeholder="0.00">
+            </div>
+            
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1">Pips (Distance)</label>
+                <input type="number" id="pips" value="10" class="w-full rounded-xl py-3 px-4 text-xl sm:text-2xl neon-input" placeholder="0">
+            </div>
+        </div>
+
+        <!-- Results Section - 3 Column Grid -->
+        <div class="grid grid-cols-3 gap-3">
+            <!-- Pip Value -->
+            <div class="glass-card bg-black/40 rounded-xl p-3 flex flex-col justify-center items-center text-center">
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Pip Value</span>
+                <span id="pipValue" class="text-lg sm:text-xl font-bold text-gray-200 truncate w-full">$0.10</span>
+            </div>
+            
+            <!-- Risk Amount -->
+            <div class="glass-card bg-black/40 rounded-xl p-3 border border-red-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-red-500/5 z-0"></div>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">Risk Amt</span>
+                <span id="totalAmount" class="text-xl sm:text-2xl font-black neon-red z-10 truncate w-full">$1.00</span>
+            </div>
+            
+            <!-- % Risk -->
+            <div class="glass-card bg-black/40 rounded-xl p-3 border border-sky-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-sky-500/5 z-0"></div>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">% Risk</span>
+                <span id="percentage" class="text-lg sm:text-xl font-bold neon-blue z-10 truncate w-full">0.10%</span>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="flex flex-col items-center gap-3 text-[10px] text-gray-500 border-t border-white/10 pt-4 mt-2">
+            <p class="text-center">Calculated for Cent Account (USC) / Standard Gold (XAUUSD)</p>
+            <div class="flex items-center gap-2 bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-full border border-emerald-500/20 font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                System Active
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript for Calculator Logic -->
+    <script>
+        function calculateRisk() {
+            // Get values from inputs
+            const capital = parseFloat(document.getElementById('capital').value) || 0;
+            const lotSize = parseFloat(document.getElementById('lotSize').value) || 0;
+            const pips = parseFloat(document.getElementById('pips').value) || 0;
+
+            // Math computations
+            const pipValue = lotSize * 10;
+            const totalAmount = pips * pipValue;
+            const percentage = capital > 0 ? (totalAmount / capital) * 100 : 0;
+
+            // Format to handle long decimals nicely
+            const formatCurrency = (val) => {
+                return '$' + val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            };
+
+            const formatPercent = (val) => {
+                return val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%';
+            };
+
+            // Display results
+            document.getElementById('pipValue').textContent = formatCurrency(pipValue);
+            document.getElementById('totalAmount').textContent = formatCurrency(totalAmount);
+            document.getElementById('percentage').textContent = formatPercent(percentage);
+        }
+
+        // Add event listeners for real-time calculation
+        ['capital', 'lotSize', 'pips'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateRisk);
+        });
+        
+        // Initial calculation on load
+        calculateRisk();
+    </script>
+</body>
+</html>
