@@ -115,25 +115,25 @@
         </div>
 
         <!-- Results Section - 3 Column Grid -->
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
             <!-- Pip Value -->
-            <div class="glass-card bg-black/40 rounded-xl p-3 flex flex-col justify-center items-center text-center">
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Pip Value</span>
-                <span id="pipValue" class="text-lg sm:text-xl font-bold text-gray-200 truncate w-full">$0.10</span>
+            <div class="glass-card bg-black/40 rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center text-center">
+                <span class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Pip Value</span>
+                <span id="pipValue" class="font-bold text-gray-200 w-full break-words" style="font-size: clamp(14px, 3.5vw, 22px); line-height: 1.2;">$0.10</span>
             </div>
             
             <!-- Risk Amount -->
-            <div class="glass-card bg-black/40 rounded-xl p-3 border border-red-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div class="glass-card bg-black/40 rounded-xl p-2 sm:p-3 border border-red-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-red-500/5 z-0"></div>
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">Risk Amt</span>
-                <span id="totalAmount" class="text-xl sm:text-2xl font-black neon-red z-10 truncate w-full">$1.00</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">Risk Amt</span>
+                <span id="totalAmount" class="font-black neon-red z-10 w-full break-words" style="font-size: clamp(14px, 3.5vw, 24px); line-height: 1.2;">$1.00</span>
             </div>
             
             <!-- % Risk -->
-            <div class="glass-card bg-black/40 rounded-xl p-3 border border-sky-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div class="glass-card bg-black/40 rounded-xl p-2 sm:p-3 border border-sky-500/20 flex flex-col justify-center items-center text-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-sky-500/5 z-0"></div>
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">% Risk</span>
-                <span id="percentage" class="text-lg sm:text-xl font-bold neon-blue z-10 truncate w-full">0.10%</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 z-10">% Risk</span>
+                <span id="percentage" class="font-bold neon-blue z-10 w-full break-words" style="font-size: clamp(14px, 3.5vw, 22px); line-height: 1.2;">0.10%</span>
             </div>
         </div>
         
